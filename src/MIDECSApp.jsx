@@ -1029,10 +1029,10 @@ function GuideScreen() {
       <div style={{ maxWidth: 680, margin: "0 auto", padding: "0 20px" }}>
         {/* 코드 안내 */}
         <div style={{
-          background: "#fff", borderRadius: 20, marginTop: -20, marginBottom: 24,
+          background: "#fff", borderRadius: 20, marginTop: 24, marginBottom: 24,
           boxShadow: "0 1px 3px rgba(15,23,42,.06), 0 8px 32px rgba(15,23,42,.04)"
         }}>
-          <div style={{ padding: "24px 20px" }}>
+          <div style={{ padding: "28px 20px 24px" }}>
             <p style={{ fontSize: 15, fontWeight: 700, marginBottom: 8 }}>🔎 내 코드가 기억나지 않는다면</p>
             <p style={{ fontSize: 14, color: "#5A6B5A", lineHeight: 1.75, margin: "0 0 14px" }}>
               MIDECS 코드는 점수가 가장 높았던 두 체질의 알파벳입니다.
