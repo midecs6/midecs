@@ -1,45 +1,16 @@
 import { useState, useEffect, useRef, Fragment } from "react";
 
 /* ════════════════════════════════════════════════════════════
-   카카오 채널 연동 설정 (SDK 간편 추가 + 링크 폴백)
+   카카오 채널 연동 설정 (링크 방식)
    ────────────────────────────────────────────────────────────
-   ▸ KAKAO_JS_KEY   : 개발자센터 > 플랫폼 키 > JavaScript 키
    ▸ KAKAO_CHANNEL_ID : 채널 URL의 _xxxxx 값
-   ▸ SDK 간편 추가가 가능하면 페이지 안에서 팝업으로 처리하고,
-     실패하면 채널 추가 페이지를 새 창으로 여는 방식으로 폴백합니다.
+   ▸ 채널 추가 페이지로 직접 이동하는 방식이라
+     개발자센터 앱·JS 키·비즈니스 심사가 필요 없습니다.
    ════════════════════════════════════════════════════════════ */
-const KAKAO_JS_KEY = "e6fac572de09fbc155678e0941df47d3";
 const KAKAO_CHANNEL_ID = "_VaSwX";                       // 살빠체의 하루
 const KAKAO_CHANNEL_URL = KAKAO_CHANNEL_ID
   ? `https://pf.kakao.com/${KAKAO_CHANNEL_ID}/friend`
   : "";
-
-// 카카오 SDK 로드 + 초기화 (실패해도 앱은 정상 동작)
-function loadKakaoSDK() {
-  return new Promise((resolve) => {
-    if (!KAKAO_JS_KEY) { resolve(false); return; }
-    const K = () => (typeof window !== "undefined" ? window.Kakao : null);
-    const init = () => {
-      try {
-        const k = K();
-        if (!k) { resolve(false); return; }
-        if (!k.isInitialized()) k.init(KAKAO_JS_KEY);
-        resolve(true);
-      } catch (e) { resolve(false); }
-    };
-    try {
-      if (K() && K().isInitialized && K().isInitialized()) { resolve(true); return; }
-      if (document.getElementById("kakao-sdk")) { init(); return; }
-      const s = document.createElement("script");
-      s.id = "kakao-sdk";
-      s.src = "https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js";
-      s.onload = init;
-      s.onerror = () => resolve(false);
-      document.head.appendChild(s);
-    } catch (e) { resolve(false); }
-  });
-}
-
 
 /* ════════════════════════════════════════════════════════════
    MIDECS 체질 진단 설문지 — Interactive Self-Test v2
@@ -703,54 +674,42 @@ function QuestionScreen({ answers, setAnswers, onFinish }) {
 // KakaoGate — 상세 결과 열람 게이트 (카카오 채널 추가)
 // ═══════════════════════════════════════════════════════════
 function KakaoJoinButton() {
-  const [loading, setLoading] = useState(false);
-  const [done, setDone] = useState(false);
+  const [opened, setOpened] = useState(false);
 
-  const openChannelPage = () => {
-    if (KAKAO_CHANNEL_URL) {
-      try { window.open(KAKAO_CHANNEL_URL, "_blank", "noopener,noreferrer"); } catch (e) { }
+  // 채널 추가 페이지로 바로 이동 (SDK·심사 불필요, 항상 동작)
+  const openChannel = () => {
+    setOpened(true);
+    if (!KAKAO_CHANNEL_URL) return;
+    try {
+      const w = window.open(KAKAO_CHANNEL_URL, "_blank", "noopener,noreferrer");
+      if (!w) window.location.href = KAKAO_CHANNEL_URL;   // 팝업 차단 시
+    } catch (e) {
+      try { window.location.href = KAKAO_CHANNEL_URL; } catch (e2) { }
     }
-    setDone(true);
-  };
-
-  const handleKakao = async () => {
-    setLoading(true);
-    const ready = await loadKakaoSDK();
-    const k = typeof window !== "undefined" ? window.Kakao : null;
-
-    // ① SDK 간편 추가 — 페이지를 벗어나지 않고 팝업으로 처리
-    if (ready && k && k.Channel && typeof k.Channel.followChannel === "function") {
-      try {
-        await k.Channel.followChannel({ channelPublicId: KAKAO_CHANNEL_ID });
-        setLoading(false); setDone(true); return;
-      } catch (e) { /* 실패 시 링크 폴백 */ }
-    }
-    setLoading(false);
-    openChannelPage();
   };
 
   return (
     <>
-      <button onClick={handleKakao} disabled={loading} style={{
+      <button onClick={openChannel} style={{
         width: "100%", padding: "15px 20px", borderRadius: 12, border: "none",
-        background: loading ? "#F2E24E" : "#FEE500", color: "#191600",
-        fontSize: 16, fontWeight: 800, cursor: loading ? "default" : "pointer",
+        background: "#FEE500", color: "#191600",
+        fontSize: 16, fontWeight: 800, cursor: "pointer",
         display: "flex", alignItems: "center", justifyContent: "center", gap: 8
       }}>
         <span style={{ fontSize: 20 }}>💬</span>
-        {loading ? "연결 중..." : "살빠체 카카오 채널 추가하기"}
+        살빠체 카카오 채널 추가하기
       </button>
 
-      {done && (
+      {opened && (
         <div style={{
           marginTop: 12, padding: "14px 16px", borderRadius: 12,
           background: "#E8F0E5", border: "1px solid #C5D9C0"
         }}>
           <p style={{ fontSize: 14, color: "#3A5B3A", fontWeight: 700, margin: "0 0 4px" }}>
-            ✓ 채널 추가 후 카카오톡을 확인해주세요
+            채널 화면에서 '채널 추가'를 눌러주세요
           </p>
           <p style={{ fontSize: 13, color: "#5A6B5A", lineHeight: 1.6, margin: 0 }}>
-            상세 분석 페이지 링크가 메시지로 전송됩니다.
+            추가하시면 상세 분석 페이지 링크가 카카오톡으로 전송됩니다.
           </p>
         </div>
       )}
