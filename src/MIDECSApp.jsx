@@ -1,5 +1,10 @@
 import { useState, useEffect, useRef, Fragment } from "react";
 
+// ─── GA4 이벤트 추적 헬퍼 ──────────────────────────────────
+function track(event, params) {
+  try { if (typeof window !== "undefined" && typeof window.gtag === "function") window.gtag("event", event, params || {}); } catch (e) {}
+}
+
 /* ════════════════════════════════════════════════════════════
    카카오 채널 연동 설정 (링크 방식)
    ────────────────────────────────────────────────────────────
@@ -378,7 +383,7 @@ function TypeDetailCard({ catIdx, scores, checkedItems, toggleCheck, rank }) {
                       <span style={{ color: "#4A7C59", fontWeight: 700, flexShrink: 0 }}>✓</span>
                       <span>남창우 원장의 단비단 한약 처방 ({db.desc})</span>
                     </div>
-                    <a href="https://www.danbidiet.com" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "block", marginLeft: 16 }}>
+                    <a href="https://www.danbidiet.com" target="_blank" rel="noopener noreferrer" onClick={() => track("danbidan_click", { type: cat.key, where: "solution" })} style={{ textDecoration: "none", display: "block", marginLeft: 16 }}>
                       <span style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "3px 10px", borderRadius: 6, background: "#4A7C59", color: "#fff", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>단비단 바로가기 →</span>
                     </a>
                   </div>
@@ -434,7 +439,7 @@ function TypeDetailCard({ catIdx, scores, checkedItems, toggleCheck, rank }) {
                 <span style={{ flexShrink: 0 }}>💊</span>
                 <span>남창우 원장의 단비단 한약 처방 ({DANBIDAN[cat.key].desc})</span>
               </div>
-              <a href="https://www.danbidiet.com" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "block", marginLeft: 16 }}>
+              <a href="https://www.danbidiet.com" target="_blank" rel="noopener noreferrer" onClick={() => track("danbidan_click", { type: cat.key, where: "supplement" })} style={{ textDecoration: "none", display: "block", marginLeft: 16 }}>
                 <span style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "3px 10px", borderRadius: 6, background: "#4A7C59", color: "#fff", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>단비단 바로가기 →</span>
               </a>
             </div>
@@ -545,6 +550,7 @@ function IntroScreen({ onStart, mode }) {
 // ═══════════════════════════════════════════════════════════
 function QuestionScreen({ answers, setAnswers, onFinish, mode }) {
   const topRef = useRef(null);
+  useEffect(() => { track("test_start", { mode: mode || "quick" }); }, []);
 
   // mode에 따라 영역별 문항 인덱스 결정 → 평탄화된 스텝 시퀀스
   const perCat = CATEGORIES.map((c) =>
@@ -574,6 +580,7 @@ function QuestionScreen({ answers, setAnswers, onFinish, mode }) {
 
   const pick = (v) => {
     const n = [...answers]; n[gQ] = v; setAnswers(n);
+    track("question_progress", { mode: mode || "quick", step: step + 1, total: TOTAL });
     setTimeout(() => { if (step < TOTAL - 1) { setStep(step + 1); st(); } }, 280);
   };
   const prev = () => { if (step > 0) { setStep(step - 1); st(); } };
@@ -592,7 +599,7 @@ function QuestionScreen({ answers, setAnswers, onFinish, mode }) {
             <div style={{ height: "100%", borderRadius: 3, width: pct + "%", background: "linear-gradient(90deg, #3A5B3A, #5A8C69, #7AB88A)", transition: "width .5s cubic-bezier(.4,0,.2,1)" }} />
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", fontSize: 14, color: "#6B7B6B", marginTop: 8, fontWeight: 500 }}>
-            <span>{cat.icon} {cat.key} – {cat.subtitle} ({catTot}/{catMax})</span>
+            <span>{cat.icon} {cat.key} – {cat.subtitle}</span>
             <span style={{ fontWeight: 700, color: "#4A7C59" }}>{pct}% 완료</span>
           </div>
         </div>
@@ -734,6 +741,7 @@ function ResultScreen({ answers, onRestart, mode }) {
   }
   const c1 = CATEGORIES[top1.i].key;
   const c2 = CATEGORIES[top2.i].key;
+  useEffect(() => { if (!needsPick) track("test_complete", { mode: mode || "quick", code: c1 + c2 }); }, [needsPick, c1, c2]);
 
   const toggleCheck = (catKey, idx) => {
     const k = catKey + "-" + idx;
@@ -872,7 +880,7 @@ function ResultScreen({ answers, onRestart, mode }) {
 
         {/* 간이 결과 → 상세 테스트 유도 (quick 모드) */}
         {mode === "quick" && (
-          <a href="/#full" style={{ textDecoration: "none" }}>
+          <a href="/#full" onClick={() => track("go_full_test", {})} style={{ textDecoration: "none" }}>
             <div style={{
               background: "#fff", borderRadius: 16, padding: "18px 20px", marginBottom: 20,
               border: "1.5px solid #DDD6CB", display: "flex", alignItems: "center", gap: 14,
