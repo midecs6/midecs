@@ -24,9 +24,9 @@ const CATEGORIES = [
     coreIssue: "인슐린 저항성, 혈당 스파이크, 대사 호르몬 불균형",
     questions: [
       "식후 1–2시간이 지나면 심한 졸음이나 멍함이 와서 집중하기 어렵다.",
-      "식사 간격이 4–5시간 이상 길어지면 손 떨림·식은땀·극심한 허기를 느낀다.",
+      "식사 간격이 4–5시간 이상 길어지면 허기를 참기 힘들다.",
       "예전보다 같은 양을 먹어도 체중이 더 잘 늘고 잘 빠지지 않는다.",
-      "특별히 많이 먹지 않아도 허리둘레·복부비만이 점점 늘어나는 편이다.",
+      "체중 변화에 비해 허리둘레·복부비만이 점점 늘어나는 편이다.",
       "혈액검사에서 공복혈당·당화혈색소·중성지방·LDL 콜레스테롤 이상을 지적받은 적이 있다.",
       "평소 손발이 차고 추위를 많이 타며, 남들보다 옷을 더 껴입는 편이다.",
       "이유 없이 피로감이 지속되고, 아침에 일어나도 개운하지 않은 날이 많다.",
@@ -35,6 +35,7 @@ const CATEGORIES = [
       "가까운 가족(부모·형제) 중에 당뇨병, 지방간, 심근경색, 뇌졸중 환자가 있다."
     ],
     scales: ["F","F","D","D","H","D","F","H","H","FAM"],
+    quickIdx: [0,1,2,3],
     interpretations: {
       green: { label: "대사 엔진은 비교적 안정", text: "현재로서는 인슐린·혈당·갑상선이 살이 찌는 주범일 가능성은 낮습니다." },
       yellow: { label: "대사 엔진 경고등 ON", text: "혈당 스파이크, 복부비만, 피로 등이 서서히 나타나는 단계입니다.", exam: "공복혈당, HbA1c, 인슐린, 중성지방, 갑상선(TSH, Free T4)" },
@@ -59,6 +60,7 @@ const CATEGORIES = [
       "식사 자체보다, \"맛있는 걸 먹는 순간\"에 대한 기대감이 훨씬 크게 느껴진다."
     ],
     scales: ["F","D","F","D","D","F","F","D","CNT","D"],
+    quickIdx: [0,1,2,7],
     interpretations: {
       green: { label: "도파민·보상 회로는 건강", text: "식욕 조절이 비교적 잘 작동하고 있습니다." },
       yellow: { label: "감정 폭식 신호", text: "도파민·보상 회로에 약간의 불균형이 나타나고 있습니다.", exam: "스트레스 호르몬 검사(코르티솔), 신경전달물질 대사체 검사" },
@@ -83,6 +85,7 @@ const CATEGORIES = [
       "하루 중 대부분 시간에 배(특히 배꼽 주변 아랫배)가 항상 부풀어 있는 느낌이 든다."
     ],
     scales: ["D","F","D","F","D","D","H","D","H","F"],
+    quickIdx: [1,2,5,9],
     interpretations: {
       green: { label: "장 기능은 비교적 건강", text: "소화·장내 환경이 비교적 건강합니다." },
       yellow: { label: "장 기능 저하 신호", text: "장내 미생물 불균형·소화 불편이 쌓이고 있습니다.", exam: "대변 미생물 검사, 소변 유기산 검사, 식이민감성 검사(IgG)" },
@@ -95,10 +98,10 @@ const CATEGORIES = [
     color: "#C75B5B", gradient: "linear-gradient(135deg, #A04545, #D47070)",
     coreIssue: "만성 저등급 염증, 부종, 림프 순환 장애",
     questions: [
-      "아침에 일어나면 얼굴·눈두덩·손이 붓고, 저녁엔 양말 자국이 깊게 남는 편이다.",
-      "살이 찐 것과 별개로, 몸이 물 먹은 솜처럼 무겁고 붓는 느낌이 자주 든다.",
+      "아침에 일어나면 얼굴이나 눈두덩이 혹은 손이 붓는다.",
+      "살이 찐 것과 별개로, 몸이 물 먹은 솜처럼 무거운 느낌이다.",
       "특별한 이유 없이 근육통·관절통·두통이 자주 반복된다.",
-      "자고 일어나도 몸이 개운하기보다 온몸이 쑤시고 더 피곤한 느낌이 든다.",
+      "체중은 그대로인데 팔·다리 쪽 옷이 많이 끼는 느낌이 자주 든다.",
       "피부를 긁으면 쉽게 붉게 부어오르거나, 두드러기·가려움이 반복된다.",
       "건강검진에서 고혈압·지방간·혈중 염증수치(hs-CRP 등) 상승을 지적받은 적이 있다.",
       "튀긴 음식·가공식품·야식·술을 먹은 다음 날, 얼굴·손발이 더 붓고 컨디션이 급격히 떨어진다.",
@@ -107,6 +110,7 @@ const CATEGORIES = [
       "류마티스·자가면역질환·만성염증질환(예: 만성 비염·피부염)을 진단받았거나 의심받은 적이 있다."
     ],
     scales: ["F","F","F","F","F","H","D","F","F","H"],
+    quickIdx: [0,1,6,8],
     interpretations: {
       green: { label: "일상적 피로·붓기 수준", text: "예방 차원에서 식습관 개선을 추천합니다." },
       yellow: { label: "만성 저등급 염증 신호", text: "항염 식단·수면·스트레스 관리를 시작하면 몸이 가벼워집니다.", exam: "hs-CRP, ESR, 호모시스테인" },
@@ -131,6 +135,7 @@ const CATEGORIES = [
       "건강검진·의사가 코르티솔·부신 기능·스트레스 관리에 대해 언급한 적이 있다."
     ],
     scales: ["F","F","F","F","F","H","F","D","D","H"],
+    quickIdx: [0,1,2,4],
     interpretations: {
       green: { label: "수면·생체리듬은 비교적 정상", text: "수면·스트레스가 비만의 주된 원인일 가능성은 낮습니다." },
       yellow: { label: "생체리듬 교란 초기", text: "빛·카페인·운동 타이밍 조절로 개선 가능합니다.", exam: "타액 코르티솔 (4회 측정), 수면다원검사" },
@@ -155,6 +160,7 @@ const CATEGORIES = [
       "\"운동을 시작해야지\"라는 생각은 자주 하지만, 막상 실천이 잘 안 되고 미루는 패턴이 오래되고 있다."
     ],
     scales: ["H","D","D","D","REV","F","H","CNT","D","D"],
+    quickIdx: [1,2,3,4],
     interpretations: {
       green: { label: "활동·근육량은 비교적 건강", text: "현재 활동 수준을 유지하며 다른 영역에 집중하세요." },
       yellow: { label: "근육 손실 신호", text: "고단백 식단과 점진적 근력 운동으로 개선 가능합니다.", exam: "DEXA, 생체임피던스, 기초대사량 측정" },
@@ -287,7 +293,8 @@ function Accordion({ title, icon, children, open: initOpen }) {
 // ─── 단비단 삽입 설정 (타입별) ────────────────────────────
 const DANBIDAN = {
   M: { desc: "대사량 개선, 식욕 안정", beforeIdx: 7 },
-  I: { desc: "가짜 식욕 안정, 대사량 개선", beforeIdx: 6 }
+  I: { desc: "가짜 식욕 안정, 대사량 개선", beforeIdx: 6 },
+  E: { desc: "노폐물 순환, 부종 완화", beforeIdx: 6 }
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -360,7 +367,7 @@ function TypeDetailCard({ catIdx, scores, checkedItems, toggleCheck, rank }) {
         </Accordion>
 
         {/* 해결 방법 */}
-        <Accordion title="해결 방법" icon="✅">
+        <Accordion title="해결 방법" icon="✅" open={true}>
           {det.solutions.map((sol, i) => {
             const db = DANBIDAN[cat.key];
             return (
@@ -478,7 +485,10 @@ function TypeDetailCard({ catIdx, scores, checkedItems, toggleCheck, rank }) {
 // ═══════════════════════════════════════════════════════════
 // INTRO SCREEN
 // ═══════════════════════════════════════════════════════════
-function IntroScreen({ onStart }) {
+function IntroScreen({ onStart, mode }) {
+  const isQuick = mode === "quick";
+  const qCount = isQuick ? 24 : 60;
+  const estMin = isQuick ? "약 2분" : "약 5분";
   return (
     <div style={{ minHeight: "100vh", background: "#F7F4EF", color: "#2D3B2D", lineHeight: 1.65 }}>
       <div style={{
@@ -489,13 +499,16 @@ function IntroScreen({ onStart }) {
         <div style={{ position: "relative" }}>
           <div style={{ display: "inline-block", padding: "6px 18px", borderRadius: 50, background: "rgba(122,184,138,.15)", border: "1px solid rgba(122,184,138,.3)", color: "#9DCBA8", fontSize: 13, fontWeight: 600 }}>MIDECS Self-Test</div>
           <h1 style={{ fontSize: "clamp(28px,5vw,42px)", fontWeight: 800, color: "#fff", letterSpacing: "-.02em", margin: "20px 0 12px" }}>MIDECS 체질 진단</h1>
-          <p style={{ fontSize: "clamp(14px,2.5vw,17px)", color: "rgba(200,220,200,.9)", maxWidth: 520, margin: "0 auto", lineHeight: 1.7 }}>당신의 비만 원인을 6가지 체질로 정밀 분석합니다.<br />60문항으로 나만의 MIDECS 코드를 찾아보세요.</p>
+          <p style={{ fontSize: "clamp(14px,2.5vw,17px)", color: "rgba(200,220,200,.9)", maxWidth: 520, margin: "0 auto", lineHeight: 1.7 }}>당신의 비만 원인을 6가지 체질로 분석합니다.<br />{qCount}문항 · {estMin}이면 나만의 MIDECS 코드를 찾을 수 있어요.</p>
         </div>
       </div>
       <div style={{ maxWidth: 680, margin: "0 auto", padding: "0 20px" }}>
         <div style={{ background: "#fff", borderRadius: 20, marginTop: 24, marginBottom: 24, boxShadow: "0 1px 3px rgba(15,23,42,.06), 0 8px 32px rgba(15,23,42,.04)" }}>
           <div style={{ padding: "28px 20px 24px" }}>
-            <h2 style={{ fontSize: 19, fontWeight: 700, marginBottom: 16 }}>📘 설문 안내</h2>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16, flexWrap: "wrap", gap: 8 }}>
+              <h2 style={{ fontSize: 19, fontWeight: 700, margin: 0 }}>📘 설문 안내</h2>
+              <span style={{ fontSize: 13, fontWeight: 700, color: "#4A7C59", background: "#E8F0E5", padding: "5px 12px", borderRadius: 50 }}>{qCount}문항 · {estMin}</span>
+            </div>
             <p style={{ fontSize: 15, color: "#5A6B5A", marginBottom: 16, lineHeight: 1.78 }}>이 설문지는 비만의 <strong>'원인 경향'</strong>을 파악하기 위한 자기 점검 도구이며, 특정 질환을 진단하는 검사가 아닙니다.</p>
             <div style={{ background: "#F7F4EF", borderRadius: 14, padding: 20, marginBottom: 16 }}>
               <p style={{ fontSize: 15, fontWeight: 700, color: "#3A5B3A", marginBottom: 8 }}>📝 응답 방법</p>
@@ -519,26 +532,8 @@ function IntroScreen({ onStart }) {
             <p style={{ fontSize: 14, color: "#8A968A", lineHeight: 1.7 }}>지난 1개월간의 상태를 기준으로 솔직하게 선택하세요.</p>
           </div>
         </div>
-        <div style={{ padding: "0 0 24px" }}>
-          <button onClick={onStart} style={{ width: "100%", padding: "16px 24px", borderRadius: 14, border: "none", background: "linear-gradient(135deg, #3A5B3A, #5A8C69)", color: "#fff", fontSize: 17, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 16px rgba(74,124,89,.25)" }}>설문 시작하기 →</button>
-          <p style={{ fontSize: 13, color: "#8A968A", textAlign: "center", marginTop: 10, lineHeight: 1.6 }}>
-            시작 전, 아래 <strong style={{ color: "#C75B5B" }}>위험 신호</strong>를 한 번 확인해주세요.
-          </p>
-        </div>
-
-        <div style={{ background: "#fff", borderRadius: 20, marginBottom: 24, boxShadow: "0 1px 3px rgba(15,23,42,.06), 0 8px 32px rgba(15,23,42,.04)" }}>
-          <div style={{ padding: "24px 20px" }}>
-            <h2 style={{ fontSize: 18, fontWeight: 700, color: "#C75B5B", marginBottom: 16 }}>🚨 설문 전 꼭 확인하세요</h2>
-            <p style={{ fontSize: 15, color: "#5A6B5A", marginBottom: 16, lineHeight: 1.72 }}>아래는 <strong>몸이 보내는 위험 신호</strong>입니다.<br />다음 중 <strong>하나라도 해당</strong>된다면 설문보다 <strong>의료 전문가의 진료가 우선</strong>입니다.</p>
-            {RED_FLAGS.map((f, i) => (
-              <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", padding: "10px 14px", borderRadius: 10, background: i % 2 === 0 ? "#FDF2EF" : "#fff", marginBottom: 4, fontSize: 15, color: "#6B3535", lineHeight: 1.65, whiteSpace: "pre-line" }}>
-                <span style={{ color: "#C75B5B", fontSize: 16, flexShrink: 0 }}>⚠</span><span>{f}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div style={{ padding: "8px 0 40px" }}>
-          <button onClick={onStart} style={{ width: "100%", padding: "16px 24px", borderRadius: 14, border: "none", background: "linear-gradient(135deg, #3A5B3A, #5A8C69)", color: "#fff", fontSize: 17, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 16px rgba(74,124,89,.25)" }}>설문 시작하기 →</button>
+        <div style={{ padding: "0 0 40px" }}>
+          <button onClick={onStart} style={{ width: "100%", padding: "16px 24px", borderRadius: 14, border: "none", background: "linear-gradient(135deg, #3A5B3A, #5A8C69)", color: "#fff", fontSize: 17, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 16px rgba(74,124,89,.25)" }}>{isQuick ? "간편 진단 시작하기" : "정밀 진단 시작하기"} →</button>
         </div>
       </div>
     </div>
@@ -548,31 +543,45 @@ function IntroScreen({ onStart }) {
 // ═══════════════════════════════════════════════════════════
 // QUESTION SCREEN
 // ═══════════════════════════════════════════════════════════
-function QuestionScreen({ answers, setAnswers, onFinish }) {
-  const [catIdx, setCatIdx] = useState(0);
-  const [qIdx, setQIdx] = useState(0);
+function QuestionScreen({ answers, setAnswers, onFinish, mode }) {
   const topRef = useRef(null);
+
+  // mode에 따라 영역별 문항 인덱스 결정 → 평탄화된 스텝 시퀀스
+  const perCat = CATEGORIES.map((c) =>
+    mode === "quick" ? (c.quickIdx || [0,1,2,3]) : c.questions.map((_, i) => i)
+  );
+  const steps = [];
+  CATEGORIES.forEach((c, ci) => perCat[ci].forEach((qi) => steps.push({ ci, qi })));
+  const TOTAL = steps.length;
+
+  const [step, setStep] = useState(0);
+  const cur = steps[step];
+  const catIdx = cur.ci, qIdx = cur.qi;
   const cat = CATEGORIES[catIdx];
-  const gQ = catIdx * 10 + qIdx;
+  const gQ = catIdx * 10 + qIdx;                     // answers는 항상 60칸 유지
   const scale = SCALES[(cat.scales && cat.scales[qIdx]) || "F"] || SCALES.F;
-  const cnt = answers.filter(a => a !== undefined).length;
-  const pct = (cnt / 60) * 100;
-  const catTot = Array.from({ length: 10 }, (_, i) => answers[catIdx * 10 + i] || 0).reduce((a, b) => a + b, 0);
+
+  // 이 영역의 이번 모드 문항 수 / 그중 몇 번째인지
+  const catSteps = perCat[catIdx];
+  const posInCat = catSteps.indexOf(qIdx) + 1;
+  const catMax = catSteps.length * 4;
+  const catTot = catSteps.reduce((a, i) => a + (answers[catIdx * 10 + i] || 0), 0);
+
+  const answeredCount = steps.filter(s => answers[s.ci * 10 + s.qi] !== undefined).length;
+  const pct = Math.round((answeredCount / TOTAL) * 100);
+
   const st = () => topRef.current && topRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
 
   const pick = (v) => {
     const n = [...answers]; n[gQ] = v; setAnswers(n);
-    setTimeout(() => {
-      if (qIdx < 9) { setQIdx(qIdx + 1); st(); }
-      else if (catIdx < 5) { setCatIdx(catIdx + 1); setQIdx(0); st(); }
-    }, 280);
+    setTimeout(() => { if (step < TOTAL - 1) { setStep(step + 1); st(); } }, 280);
   };
+  const prev = () => { if (step > 0) { setStep(step - 1); st(); } };
+  const next = () => { if (step < TOTAL - 1) { setStep(step + 1); st(); } else { onFinish(); } };
 
-  const prev = () => { if (qIdx > 0) { setQIdx(qIdx - 1); st(); } else if (catIdx > 0) { setCatIdx(catIdx - 1); setQIdx(9); st(); } };
-  const next = () => { if (qIdx < 9) { setQIdx(qIdx + 1); st(); } else if (catIdx < 5) { setCatIdx(catIdx + 1); setQIdx(0); st(); } else { onFinish(); } };
-  const allOk = answers.every(a => a !== undefined);
+  const allOk = steps.every(s => answers[s.ci * 10 + s.qi] !== undefined);
   const curOk = answers[gQ] !== undefined;
-  const isLast = catIdx === 5 && qIdx === 9;
+  const isLast = step === TOTAL - 1;
 
   return (
     <div ref={topRef} style={{ minHeight: "100vh", background: "#F7F4EF", color: "#2D3B2D", lineHeight: 1.65 }}>
@@ -583,25 +592,25 @@ function QuestionScreen({ answers, setAnswers, onFinish }) {
             <div style={{ height: "100%", borderRadius: 3, width: pct + "%", background: "linear-gradient(90deg, #3A5B3A, #5A8C69, #7AB88A)", transition: "width .5s cubic-bezier(.4,0,.2,1)" }} />
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", fontSize: 14, color: "#6B7B6B", marginTop: 8, fontWeight: 500 }}>
-            <span>{cat.icon} {cat.key} – {cat.subtitle} ({catTot}/40)</span>
-            <span style={{ fontWeight: 700, color: "#4A7C59" }}>{cnt}/60</span>
+            <span>{cat.icon} {cat.key} – {cat.subtitle} ({catTot}/{catMax})</span>
+            <span style={{ fontWeight: 700, color: "#4A7C59" }}>{pct}% 완료</span>
           </div>
         </div>
       </div>
 
       <div style={{ maxWidth: 680, margin: "0 auto", padding: "20px 20px 40px" }}>
         {/* Question Card */}
-        <div key={gQ} style={{ background: "#fff", borderRadius: 20, boxShadow: "0 1px 3px rgba(15,23,42,.06), 0 8px 32px rgba(15,23,42,.04)", marginBottom: 24, overflow: "hidden" }}>
+        <div key={step} style={{ background: "#fff", borderRadius: 20, boxShadow: "0 1px 3px rgba(15,23,42,.06), 0 8px 32px rgba(15,23,42,.04)", marginBottom: 24, overflow: "hidden" }}>
           <div style={{ padding: "16px 20px 12px", borderBottom: "1px solid #EDE8E0" }}>
             <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 14px", borderRadius: 50, background: cat.gradient, color: "#fff", fontSize: 14, fontWeight: 700 }}>{cat.icon} {cat.key} – {cat.subtitle}</div>
             <p style={{ fontSize: 14.5, color: "#8A968A", marginTop: 8, fontWeight: 500 }}>핵심 이슈: {cat.coreIssue}</p>
           </div>
           <div style={{ padding: "20px 20px 24px" }}>
             <div style={{ display: "flex", alignItems: "flex-start", marginBottom: 4 }}>
-              <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 32, height: 32, borderRadius: "50%", background: "#E8F0E5", color: "#4A7C59", fontSize: 15, fontWeight: 700, marginRight: 12, flexShrink: 0 }}>{qIdx + 1}</span>
+              <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 32, height: 32, borderRadius: "50%", background: "#E8F0E5", color: "#4A7C59", fontSize: 15, fontWeight: 700, marginRight: 12, flexShrink: 0 }}>{posInCat}</span>
               <p style={{ fontSize: "clamp(16.5px,2.9vw,19px)", fontWeight: 600, lineHeight: 1.72, margin: 0 }}>{cat.questions[qIdx]}</p>
             </div>
-            <p style={{ fontSize: 13, color: "#9BA89B", margin: "4px 0 10px 42px" }}>문항 {gQ + 1} / 60</p>
+            <p style={{ fontSize: 13, color: "#9BA89B", margin: "4px 0 10px 42px" }}>문항 {step + 1} / {TOTAL}</p>
             <p style={{ fontSize: 14, color: "#4A7C59", fontWeight: 700, margin: "0 0 16px 42px", lineHeight: 1.55 }}>
               {scale.note}
             </p>
@@ -629,10 +638,10 @@ function QuestionScreen({ answers, setAnswers, onFinish }) {
 
         {/* Nav */}
         <div style={{ display: "flex", gap: 12, marginBottom: 24 }}>
-          <button onClick={prev} disabled={gQ === 0} style={{
+          <button onClick={prev} disabled={step === 0} style={{
             flex: 1, padding: "14px 24px", borderRadius: 14, border: "2px solid #C5BDB0",
             background: "#fff", color: "#5A6B5A", fontSize: 17, fontWeight: 600, cursor: "pointer",
-            opacity: gQ === 0 ? .4 : 1, pointerEvents: gQ === 0 ? "none" : "auto"
+            opacity: step === 0 ? .4 : 1, pointerEvents: step === 0 ? "none" : "auto"
           }}>← 이전</button>
           {isLast ? (
             <button onClick={onFinish} disabled={!allOk} style={{
@@ -657,11 +666,10 @@ function QuestionScreen({ answers, setAnswers, onFinish }) {
         <div style={{ display: "flex", justifyContent: "center", gap: 6 }}>
           {CATEGORIES.map((c, ci) => (
             <div key={ci} title={c.key + " – " + c.subtitle}
-              onClick={() => { setCatIdx(ci); setQIdx(0); st(); }}
               style={{
                 width: ci === catIdx ? 28 : 10, height: 10, borderRadius: 5,
                 background: ci < catIdx ? "#4A7C59" : ci === catIdx ? "#5A8C69" : "#DDD6CB",
-                transition: "all .3s", cursor: "pointer"
+                transition: "all .3s"
               }} />
           ))}
         </div>
@@ -671,56 +679,9 @@ function QuestionScreen({ answers, setAnswers, onFinish }) {
 }
 
 // ═══════════════════════════════════════════════════════════
-// KakaoGate — 상세 결과 열람 게이트 (카카오 채널 추가)
-// ═══════════════════════════════════════════════════════════
-function KakaoJoinButton() {
-  const [opened, setOpened] = useState(false);
-
-  // 채널 추가 페이지로 바로 이동 (SDK·심사 불필요, 항상 동작)
-  const openChannel = () => {
-    setOpened(true);
-    if (!KAKAO_CHANNEL_URL) return;
-    try {
-      const w = window.open(KAKAO_CHANNEL_URL, "_blank", "noopener,noreferrer");
-      if (!w) window.location.href = KAKAO_CHANNEL_URL;   // 팝업 차단 시
-    } catch (e) {
-      try { window.location.href = KAKAO_CHANNEL_URL; } catch (e2) { }
-    }
-  };
-
-  return (
-    <>
-      <button onClick={openChannel} style={{
-        width: "100%", padding: "15px 20px", borderRadius: 12, border: "none",
-        background: "#FEE500", color: "#191600",
-        fontSize: 16, fontWeight: 800, cursor: "pointer",
-        display: "flex", alignItems: "center", justifyContent: "center", gap: 8
-      }}>
-        <span style={{ fontSize: 20 }}>💬</span>
-        살빠체 카카오 채널 추가하기
-      </button>
-
-      {opened && (
-        <div style={{
-          marginTop: 12, padding: "14px 16px", borderRadius: 12,
-          background: "#E8F0E5", border: "1px solid #C5D9C0"
-        }}>
-          <p style={{ fontSize: 14, color: "#3A5B3A", fontWeight: 700, margin: "0 0 4px" }}>
-            채널 화면에서 '채널 추가'를 눌러주세요
-          </p>
-          <p style={{ fontSize: 13, color: "#5A6B5A", lineHeight: 1.6, margin: 0 }}>
-            추가하시면 상세 분석 페이지 링크가 카카오톡으로 전송됩니다.
-          </p>
-        </div>
-      )}
-    </>
-  );
-}
-
-// ═══════════════════════════════════════════════════════════
 // RESULT SCREEN
 // ═══════════════════════════════════════════════════════════
-function ResultScreen({ answers, onRestart }) {
+function ResultScreen({ answers, onRestart, mode }) {
   const [checkedItems, setCheckedItems] = useState({});
   const [activeTab, setActiveTab] = useState(null);
   const [animated, setAnimated] = useState(false);
@@ -728,7 +689,12 @@ function ResultScreen({ answers, onRestart }) {
 
   const [picks, setPicks] = useState([]);   // 동점 시 사용자가 고른 순위 [1순위, 2순위]
 
-  const scores = CATEGORIES.map((_, ci) => {
+  const scores = CATEGORIES.map((cat, ci) => {
+    if (mode === "quick") {
+      const idxs = cat.quickIdx || [0,1,2,3];
+      const raw = idxs.reduce((a, i) => a + (answers[ci * 10 + i] || 0), 0);
+      return Math.round((raw / (idxs.length * 4)) * 40);   // 0~40 환산
+    }
     let s = 0; for (let q = 0; q < 10; q++) s += (answers[ci * 10 + q] || 0); return s;
   });
   const sorted = scores.map((s, i) => ({ s, i })).sort((a, b) => b.s - a.s);
@@ -889,55 +855,109 @@ function ResultScreen({ answers, onRestart }) {
               );
             })}
             <div style={{ marginTop: 20, padding: "14px 18px", borderRadius: 12, background: "#F7F4EF", textAlign: "center" }}>
-              <span style={{ fontSize: 14, color: "#6B7B6B" }}>총점 </span>
-              <span style={{ fontSize: 22, fontWeight: 800, color: "#3A5B3A" }}>{total}</span>
-              <span style={{ fontSize: 14, color: "#6B7B6B" }}> / 240</span>
+              {mode === "quick" ? (
+                <span style={{ fontSize: 13.5, color: "#6B7B6B", lineHeight: 1.6 }}>
+                  각 영역 점수는 40점 만점 기준으로 환산한 값입니다.
+                </span>
+              ) : (
+                <>
+                  <span style={{ fontSize: 14, color: "#6B7B6B" }}>총점 </span>
+                  <span style={{ fontSize: 22, fontWeight: 800, color: "#3A5B3A" }}>{total}</span>
+                  <span style={{ fontSize: 14, color: "#6B7B6B" }}> / 240</span>
+                </>
+              )}
             </div>
           </div>
         </div>
 
-        {/* 캡처 안내 */}
-        <div style={{
-          background: "linear-gradient(135deg, #1A2E1A, #3A6B4A)", borderRadius: 20,
-          padding: "26px 22px", textAlign: "center", marginBottom: 20,
-          boxShadow: "0 8px 32px rgba(26,46,26,.12)"
-        }}>
-          <div style={{ fontSize: 34, marginBottom: 8 }}>📸</div>
-          <p style={{ fontSize: 18, fontWeight: 800, color: "#fff", margin: "0 0 8px", lineHeight: 1.5 }}>
-            이 화면을 캡처해 두세요
-          </p>
-          <p style={{ fontSize: 14.5, color: "rgba(200,220,200,.9)", lineHeight: 1.75, margin: 0 }}>
-            내 코드 <strong style={{ color: "#fff" }}>{c1}{c2}</strong>를 알아야<br />
-            카카오 채널에서 <strong style={{ color: "#fff" }}>내 체질 상세 분석</strong>을<br />
-            찾아보실 수 있습니다.
-          </p>
-        </div>
+        {/* 간이 결과 → 상세 테스트 유도 (quick 모드) */}
+        {mode === "quick" && (
+          <a href="/#full" style={{ textDecoration: "none" }}>
+            <div style={{
+              background: "#fff", borderRadius: 16, padding: "18px 20px", marginBottom: 20,
+              border: "1.5px solid #DDD6CB", display: "flex", alignItems: "center", gap: 14,
+              boxShadow: "0 1px 3px rgba(15,23,42,.05)"
+            }}>
+              <span style={{ fontSize: 26, flexShrink: 0 }}>🔬</span>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <p style={{ fontSize: 15, fontWeight: 700, color: "#2D3B2D", margin: "0 0 3px" }}>
+                  더 정확하게 알고 싶다면
+                </p>
+                <p style={{ fontSize: 13, color: "#6B7B6B", margin: 0, lineHeight: 1.6 }}>
+                  60문항 정밀 테스트로 혈액검사·가족력까지 반영해 보세요.
+                </p>
+              </div>
+              <span style={{ fontSize: 13.5, fontWeight: 700, color: "#4A7C59", flexShrink: 0 }}>정밀 테스트 →</span>
+            </div>
+          </a>
+        )}
 
-        {/* 카카오 채널 안내 */}
-        <div style={{
-          background: "#fff", borderRadius: 20, padding: "30px 24px", textAlign: "center",
-          marginBottom: 24, border: "1px solid #EDE8E0",
-          boxShadow: "0 1px 3px rgba(15,23,42,.06), 0 8px 32px rgba(15,23,42,.04)"
-        }}>
-          <div style={{ fontSize: 38, marginBottom: 12 }}>📋</div>
-          <h3 style={{ fontSize: 21, fontWeight: 800, color: "#2D3B2D", margin: "0 0 10px", lineHeight: 1.45 }}>
-            {c1}{c2} 타입이 살 빼는 방법은<br />따로 있습니다
+        {/* 타입별 맞춤 솔루션 — 1·2순위 바로 노출 */}
+        <h2 style={{ fontSize: 20, fontWeight: 800, margin: "8px 0 6px", textAlign: "center" }}>
+          🎯 {c1}{c2} 타입 맞춤 솔루션
+        </h2>
+        <p style={{ fontSize: 14, color: "#6B7B6B", textAlign: "center", marginBottom: 20, lineHeight: 1.7 }}>
+          점수가 가장 높은 두 영역의 원인·해결법·추천 음식을 정리했습니다.
+        </p>
+
+        <TypeDetailCard
+          key={"top1-" + top1.i}
+          catIdx={top1.i}
+          scores={scores}
+          checkedItems={checkedItems}
+          toggleCheck={toggleCheck}
+          rank={"1순위 · 가장 먼저 해결할 영역"}
+        />
+        <TypeDetailCard
+          key={"top2-" + top2.i}
+          catIdx={top2.i}
+          scores={scores}
+          checkedItems={checkedItems}
+          toggleCheck={toggleCheck}
+          rank={"2순위 · 함께 관리할 영역"}
+        />
+
+        {/* 나머지 4체질 탐색 */}
+        <div style={{ borderTop: "1px solid #DDD6CB", margin: "8px 0 24px", paddingTop: 28 }}>
+          <h3 style={{ fontSize: 17, fontWeight: 800, textAlign: "center", margin: "0 0 6px" }}>
+            🔍 다른 영역도 살펴보기
           </h3>
-          <p style={{ fontSize: 16, color: "#4A7C59", fontWeight: 700, margin: "0 0 16px", lineHeight: 1.5 }}>
-            정밀 분석은 살빠체 카카오 채널에서 확인하세요
+          <p style={{ fontSize: 13.5, color: "#6B7B6B", textAlign: "center", marginBottom: 18, lineHeight: 1.7 }}>
+            아래 버튼을 누르면 해당 영역의 상세 내용이 열립니다.
           </p>
-          <p style={{ fontSize: 15.5, color: "#3F5240", lineHeight: 1.8, margin: "0 0 22px" }}>
-            {CATEGORIES[top1.i].subtitle}·{CATEGORIES[top2.i].subtitle}의 살찌는 원인,<br />
-            10가지 해결법, 타입별 챌린지와<br />
-            추천 음식·식품까지 정리해 두었습니다.
-          </p>
-
-          <KakaoJoinButton />
-
-          <p style={{ fontSize: 12, color: "#9BA89B", lineHeight: 1.6, marginTop: 14 }}>
-            채널을 추가하시면 <strong style={{ color: "#6B7B6B" }}>6체질 상세 분석 페이지 링크</strong>가<br />
-            카카오톡으로 바로 전송됩니다.
-          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8, marginBottom: 24 }}>
+            {CATEGORIES.map((cat, ci) => {
+              const s = scores[ci]; const lv = getLevel(s);
+              const isTop = ci === top1.i || ci === top2.i;
+              const isActive = activeTab === ci;
+              return (
+                <button key={cat.key}
+                  onClick={() => { if (!isTop) setActiveTab(isActive ? null : ci); }}
+                  disabled={isTop}
+                  style={{
+                    padding: "10px 8px", borderRadius: 12,
+                    border: isActive ? "2px solid " + cat.color : "2px solid #DDD6CB",
+                    background: isTop ? "#F5F1EB" : (isActive ? cat.color + "12" : "#fff"),
+                    color: isTop ? "#9BA89B" : (isActive ? cat.color : "#6B7B6B"),
+                    fontSize: 13, fontWeight: 700,
+                    cursor: isTop ? "default" : "pointer", transition: "all .2s",
+                    display: "flex", alignItems: "center", justifyContent: "center", gap: 5
+                  }}>
+                  <span>{cat.icon}</span><span>{cat.key}</span>
+                  <span style={{ fontSize: 11, fontWeight: 800, padding: "2px 6px", borderRadius: 6, background: LC[lv] + "18", color: LC[lv] }}>{s}</span>
+                </button>
+              );
+            })}
+          </div>
+          {activeTab !== null && activeTab !== top1.i && activeTab !== top2.i && (
+            <TypeDetailCard
+              key={"extra-" + activeTab}
+              catIdx={activeTab}
+              scores={scores}
+              checkedItems={checkedItems}
+              toggleCheck={toggleCheck}
+            />
+          )}
         </div>
 
         {/* 한 줄 고지 */}
@@ -1065,18 +1085,20 @@ function GuideScreen() {
 export default function MIDECSApp() {
   const [phase, setPhase] = useState("intro");
   const [answers, setAnswers] = useState(Array(60).fill(undefined));
-  // #guide / ?guide / /guide 모두 인식
+  // 라우팅: #guide → 6체질 해설, #full → 60문항 정밀, 그 외 → 24문항 간이
   const readRoute = () => {
     try {
       const l = window.location;
       const all = ((l.hash || "") + " " + (l.search || "") + " " + (l.pathname || "")).toLowerCase();
-      return all.includes("guide") ? "guide" : "";
-    } catch (e) { return ""; }
+      if (all.includes("guide")) return "guide";
+      if (all.includes("full")) return "full";
+      return "quick";
+    } catch (e) { return "quick"; }
   };
   const [route, setRoute] = useState(readRoute);
 
   useEffect(() => {
-    const onHash = () => setRoute(readRoute());
+    const onHash = () => { setRoute(readRoute()); setPhase("intro"); setAnswers(Array(60).fill(undefined)); };
     try { window.addEventListener("hashchange", onHash); } catch (e) { }
     return () => { try { window.removeEventListener("hashchange", onHash); } catch (e) { } };
   }, []);
@@ -1086,7 +1108,9 @@ export default function MIDECSApp() {
   // 카카오 채널에서 들어오는 상세 분석 페이지
   if (route === "guide") return <GuideScreen />;
 
-  if (phase === "intro") return <IntroScreen onStart={() => { setPhase("quiz"); safeScroll(); }} />;
-  if (phase === "quiz") return <QuestionScreen answers={answers} setAnswers={setAnswers} onFinish={() => { setPhase("result"); safeScroll(); }} />;
-  return <ResultScreen answers={answers} onRestart={() => { setAnswers(Array(60).fill(undefined)); setPhase("intro"); safeScroll(); }} />;
+  const mode = route === "full" ? "full" : "quick";
+
+  if (phase === "intro") return <IntroScreen mode={mode} onStart={() => { setPhase("quiz"); safeScroll(); }} />;
+  if (phase === "quiz") return <QuestionScreen mode={mode} answers={answers} setAnswers={setAnswers} onFinish={() => { setPhase("result"); safeScroll(); }} />;
+  return <ResultScreen mode={mode} answers={answers} onRestart={() => { setAnswers(Array(60).fill(undefined)); setPhase("intro"); safeScroll(); }} />;
 }
