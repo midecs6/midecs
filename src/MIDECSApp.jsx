@@ -511,7 +511,7 @@ function TypeDetailCard({ catIdx, scores, checkedItems, toggleCheck, rank }) {
 function IntroScreen({ onStart, mode }) {
   const isQuick = mode === "quick";
   const qCount = isQuick ? 24 : 60;
-  const estMin = isQuick ? "약 2분" : "약 5분";
+  const estMin = isQuick ? "약 1분" : "약 5분";
   return (
     <div style={{ minHeight: "100vh", background: "#F7F4EF", color: "#2D3B2D", lineHeight: 1.65 }}>
       <div style={{
@@ -520,9 +520,15 @@ function IntroScreen({ onStart, mode }) {
       }}>
         <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 30% 20%, rgba(122,184,138,.12) 0%, transparent 60%)", pointerEvents: "none" }} />
         <div style={{ position: "relative" }}>
-          <div style={{ display: "inline-block", padding: "6px 18px", borderRadius: 50, background: "rgba(122,184,138,.15)", border: "1px solid rgba(122,184,138,.3)", color: "#9DCBA8", fontSize: 13, fontWeight: 600 }}>MIDECS Self-Test</div>
-          <h1 style={{ fontSize: "clamp(28px,5vw,42px)", fontWeight: 800, color: "#fff", letterSpacing: "-.02em", margin: "20px 0 12px" }}>MIDECS 체질 진단</h1>
-          <p style={{ fontSize: "clamp(14px,2.5vw,17px)", color: "rgba(200,220,200,.9)", maxWidth: 520, margin: "0 auto", lineHeight: 1.7 }}>당신의 비만 원인을 6가지 체질로 분석합니다.<br />{qCount}문항 · {estMin}이면 나만의 MIDECS 코드를 찾을 수 있어요.</p>
+          <div style={{ display: "inline-block", padding: "6px 18px", borderRadius: 50, background: "rgba(122,184,138,.15)", border: "1px solid rgba(122,184,138,.3)", color: "#9DCBA8", fontSize: 13, fontWeight: 600 }}>살빠체 체질 진단</div>
+          <h1 style={{ fontSize: "clamp(25px,5vw,38px)", fontWeight: 800, color: "#fff", letterSpacing: "-.02em", margin: "20px 0 14px", lineHeight: 1.4 }}>
+            {isQuick ? <>운동도 식단도 했는데,<br />왜 나만 안 빠질까?</> : <>MIDECS 정밀 체질 진단</>}
+          </h1>
+          <p style={{ fontSize: "clamp(14px,2.5vw,17px)", color: "rgba(200,220,200,.9)", maxWidth: 520, margin: "0 auto", lineHeight: 1.75 }}>
+            {isQuick
+              ? <>이유는 각자의 체질마다 다릅니다.<br />내 몸의 브레이크, {estMin} 만에 확인하세요.</>
+              : <>6가지 체질을 {qCount}문항으로 정밀 분석합니다.<br />혈액검사·가족력까지 반영한 상세 결과를 받아보세요.</>}
+          </p>
         </div>
       </div>
       <div style={{ maxWidth: 680, margin: "0 auto", padding: "0 20px" }}>
@@ -556,7 +562,7 @@ function IntroScreen({ onStart, mode }) {
           </div>
         </div>
         <div style={{ padding: "0 0 40px" }}>
-          <button onClick={onStart} style={{ width: "100%", padding: "16px 24px", borderRadius: 14, border: "none", background: "linear-gradient(135deg, #3A5B3A, #5A8C69)", color: "#fff", fontSize: 17, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 16px rgba(74,124,89,.25)" }}>{isQuick ? "간편 진단 시작하기" : "정밀 진단 시작하기"} →</button>
+          <button onClick={onStart} style={{ width: "100%", padding: "16px 24px", borderRadius: 14, border: "none", background: "linear-gradient(135deg, #3A5B3A, #5A8C69)", color: "#fff", fontSize: 17, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 16px rgba(74,124,89,.25)" }}>{isQuick ? "내 체질 1분 만에 확인하기" : "정밀 진단 시작하기"} →</button>
         </div>
       </div>
     </div>
