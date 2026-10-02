@@ -24,7 +24,7 @@ const KAKAO_CHANNEL_URL = KAKAO_CHANNEL_ID
 
 const CATEGORIES = [
   {
-    key: "M", title: "Metabolism", subtitle: "혈당형", icon: "🔥",
+    key: "M", title: "Metabolism", subtitle: "대사형", icon: "🔥",
     color: "#C4956A", gradient: "linear-gradient(135deg, #A07850, #C4956A)",
     coreIssue: "인슐린 저항성, 혈당 스파이크, 대사 호르몬 불균형",
     questions: [
@@ -44,7 +44,7 @@ const CATEGORIES = [
     interpretations: {
       green: { label: "대사 엔진은 비교적 안정", text: "현재로서는 인슐린·혈당·갑상선이 살이 찌는 주범일 가능성은 낮습니다." },
       yellow: { label: "대사 엔진 경고등 ON", text: "혈당 스파이크, 복부비만, 피로 등이 서서히 나타나는 단계입니다.", exam: "공복혈당, HbA1c, 인슐린, 중성지방, 갑상선(TSH, Free T4)" },
-      red: { label: "\"혈당형\"이 핵심 Driver", text: "인슐린 저항성·복부비만·대사증후군과 관련된 위험이 높습니다.", exam: "공복혈당, HbA1c, 인슐린, 갑상선 정밀검사(Free T3, 항체), 성호르몬 검사" }
+      red: { label: "\"대사형\"이 핵심 Driver", text: "인슐린 저항성·복부비만·대사증후군과 관련된 위험이 높습니다.", exam: "공복혈당, HbA1c, 인슐린, 갑상선 정밀검사(Free T3, 항체), 성호르몬 검사" }
     },
     checklist: ["공복혈당·HbA1c·인슐린 검사 예약", "매 끼니 탄수화물 섭취 기준 정하기", "식사 순서 변경 (채소 → 단백질 → 탄수화물)", "혈당 스파이크 유발 음식 제거"]
   },
@@ -297,10 +297,11 @@ function Accordion({ title, icon, children, open: initOpen }) {
 
 // ─── 단비단 삽입 설정 (타입별) ────────────────────────────
 const DANBIDAN = {
-  M: { desc: "대사량 개선, 식욕 안정", beforeIdx: 7 },
-  I: { desc: "가짜 식욕 안정, 대사량 개선", beforeIdx: 6 },
-  E: { desc: "노폐물 순환, 부종 완화", beforeIdx: 6 }
+  M: { desc: "대사량 개선, 식욕 안정", hook: "식단과 운동으로 떨어진 기초 대사량이 돌아오지 않을 때" },
+  I: { desc: "가짜 식욕 안정, 대사량 개선", hook: "생활 습관으로 식욕 조절이 더 이상 힘드시다면" },
+  E: { desc: "노폐물 순환, 부종 완화", hook: "염증과 붓기, 노폐물 순환부터 풀어야 합니다" }
 };
+const DANBIDAN_NOTE = "단비단은 대사형·식욕형·염증형에 적합한 처방입니다";
 
 // ═══════════════════════════════════════════════════════════
 // TypeDetailCard — 타입 상세 분석 카드
@@ -372,22 +373,10 @@ function TypeDetailCard({ catIdx, scores, checkedItems, toggleCheck, rank }) {
         </Accordion>
 
         {/* 해결 방법 */}
-        <Accordion title="해결 방법" icon="✅" open={true}>
+        <Accordion title="해결 방법" icon="✅">
           {det.solutions.map((sol, i) => {
-            const db = DANBIDAN[cat.key];
             return (
               <div key={i}>
-                {db && i === db.beforeIdx && (
-                  <div style={{ marginBottom: 8 }}>
-                    <div style={{ display: "flex", gap: 8, alignItems: "flex-start", fontSize: 14, color: "#5A6B5A", lineHeight: 1.6, marginBottom: 6 }}>
-                      <span style={{ color: "#4A7C59", fontWeight: 700, flexShrink: 0 }}>✓</span>
-                      <span>남창우 원장의 단비단 한약 처방 ({db.desc})</span>
-                    </div>
-                    <a href="https://www.danbidiet.com" target="_blank" rel="noopener noreferrer" onClick={() => track("danbidan_click", { type: cat.key, where: "solution" })} style={{ textDecoration: "none", display: "block", marginLeft: 16 }}>
-                      <span style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "3px 10px", borderRadius: 6, background: "#4A7C59", color: "#fff", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>단비단 바로가기 →</span>
-                    </a>
-                  </div>
-                )}
                 <div style={{ display: "flex", gap: 8, alignItems: "flex-start", fontSize: 15, color: "#5A6B5A", lineHeight: 1.65, marginBottom: 5 }}>
                   <span style={{ color: "#4A7C59", fontWeight: 700, flexShrink: 0 }}>✓</span><span>{sol}</span>
                 </div>
@@ -433,17 +422,6 @@ function TypeDetailCard({ catIdx, scores, checkedItems, toggleCheck, rank }) {
 
         {/* 추천 보조제 */}
         <Accordion title="추천 보조제" icon="💊">
-          {DANBIDAN[cat.key] && (
-            <div style={{ marginBottom: 8 }}>
-              <div style={{ display: "flex", gap: 8, alignItems: "flex-start", fontSize: 14, color: "#5A6B5A", lineHeight: 1.6, marginBottom: 6 }}>
-                <span style={{ flexShrink: 0 }}>💊</span>
-                <span>남창우 원장의 단비단 한약 처방 ({DANBIDAN[cat.key].desc})</span>
-              </div>
-              <a href="https://www.danbidiet.com" target="_blank" rel="noopener noreferrer" onClick={() => track("danbidan_click", { type: cat.key, where: "supplement" })} style={{ textDecoration: "none", display: "block", marginLeft: 16 }}>
-                <span style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "3px 10px", borderRadius: 6, background: "#4A7C59", color: "#fff", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>단비단 바로가기 →</span>
-              </a>
-            </div>
-          )}
           {nutr.supplements.map((sp, i) => (
             <div key={i} style={{ display: "flex", gap: 8, alignItems: "flex-start", fontSize: 15, color: "#5A6B5A", lineHeight: 1.65, marginBottom: 5 }}>
               <span style={{ flexShrink: 0 }}>💊</span><span>{sp}</span>
@@ -453,6 +431,46 @@ function TypeDetailCard({ catIdx, scores, checkedItems, toggleCheck, rank }) {
             ※ 추천 식품과 보조제는 일반 건강 보조 목적이며, 특정 질환이 있거나 약 복용 중이시면 담당 주치의 상담이 필요합니다.
           </p>
         </Accordion>
+
+        {/* 단비단 전용 CTA 블록 (M·I·E 타입) */}
+        {DANBIDAN[cat.key] && (
+          <div style={{
+            margin: "4px 0 16px",
+            background: "linear-gradient(135deg, #F0F5EE 0%, #E8F0E5 100%)",
+            border: "1.5px solid #C5D9C0", borderRadius: 16, padding: "22px 20px"
+          }}>
+            <p style={{ fontSize: 14.5, color: "#3F5240", lineHeight: 1.7, margin: "0 0 14px", fontWeight: 600 }}>
+              {DANBIDAN[cat.key].hook}
+            </p>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+              <span style={{ fontSize: 30, flexShrink: 0 }}>🌿</span>
+              <div style={{ minWidth: 0 }}>
+                <p style={{ fontSize: 16, fontWeight: 800, color: "#2D3B2D", margin: "0 0 3px" }}>
+                  남창우 원장의 단비단 한약 처방
+                </p>
+                <p style={{ fontSize: 13, color: "#5A6B5A", margin: 0 }}>{cat.subtitle} 맞춤 · {DANBIDAN[cat.key].desc}</p>
+              </div>
+            </div>
+            <a href="https://www.danbidiet.com" target="_blank" rel="noopener noreferrer"
+              onClick={() => track("danbidan_click", { type: cat.key, where: "cta" })}
+              style={{ textDecoration: "none", display: "block" }}>
+              <div style={{
+                width: "100%", padding: "14px 20px", borderRadius: 12,
+                background: "linear-gradient(135deg, #3A5B3A, #5A8C69)", color: "#fff",
+                fontSize: 15.5, fontWeight: 800, textAlign: "center",
+                boxShadow: "0 4px 14px rgba(74,124,89,.28)", cursor: "pointer"
+              }}>
+                내 체질에 맞는 단비단 알아보기 →
+              </div>
+            </a>
+            <p style={{ fontSize: 11.5, color: "#8A968A", lineHeight: 1.6, marginTop: 10, textAlign: "center" }}>
+              20년 임상·5만 명 진료 경험의 한의사 직접 처방
+            </p>
+            <p style={{ fontSize: 11.5, color: "#9BA89B", lineHeight: 1.6, marginTop: 4, textAlign: "center" }}>
+              {DANBIDAN_NOTE}
+            </p>
+          </div>
+        )}
 
         {/* 실행 체크리스트 */}
         {(!hasScore || s >= 20) && (
@@ -1023,7 +1041,7 @@ function GuideScreen() {
             <p style={{ fontSize: 15, fontWeight: 700, marginBottom: 8 }}>🔎 내 코드가 기억나지 않는다면</p>
             <p style={{ fontSize: 14, color: "#5A6B5A", lineHeight: 1.75, margin: "0 0 14px" }}>
               MIDECS 코드는 점수가 가장 높았던 두 체질의 알파벳입니다.
-              예를 들어 <strong style={{ color: "#2D3B2D" }}>MI 타입</strong>이라면 아래에서 <strong style={{ color: "#2D3B2D" }}>M(혈당형)</strong>과 <strong style={{ color: "#2D3B2D" }}>I(식욕형)</strong>을 차례로 확인하세요.
+              예를 들어 <strong style={{ color: "#2D3B2D" }}>MI 타입</strong>이라면 아래에서 <strong style={{ color: "#2D3B2D" }}>M(대사형)</strong>과 <strong style={{ color: "#2D3B2D" }}>I(식욕형)</strong>을 차례로 확인하세요.
             </p>
             <a href="/" style={{ textDecoration: "none" }}>
               <span style={{
