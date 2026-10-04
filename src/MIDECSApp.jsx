@@ -297,9 +297,9 @@ function Accordion({ title, icon, children, open: initOpen }) {
 
 // ─── 단비단 삽입 설정 (타입별) ────────────────────────────
 const DANBIDAN = {
-  M: { desc: "대사량 개선, 식욕 안정", hook: "식단과 운동으로 떨어진 기초 대사량이 돌아오지 않을 때" },
-  I: { desc: "가짜 식욕 안정, 대사량 개선", hook: "생활 습관으로 식욕 조절이 더 이상 힘드시다면" },
-  E: { desc: "노폐물 순환, 부종 완화", hook: "염증과 붓기, 노폐물 순환부터 풀어야 합니다" }
+  M: { title: "대사형 한방 치료제 단비단", desc: "대사형의 기초 대사량을 올려주는 한약 처방" },
+  I: { title: "식욕형 한방 치료제 단비단", desc: "식욕형의 가짜 식욕을 잡아주는 한약 처방" },
+  E: { title: "염증형 한방 치료제 단비단", desc: "염증형의 부종과 노폐물을 배출하는 한약 처방" }
 };
 const DANBIDAN_NOTE = "단비단은 대사형·식욕형·염증형에 적합한 처방입니다";
 
@@ -439,16 +439,13 @@ function TypeDetailCard({ catIdx, scores, checkedItems, toggleCheck, rank }) {
             background: "linear-gradient(135deg, #F0F5EE 0%, #E8F0E5 100%)",
             border: "1.5px solid #C5D9C0", borderRadius: 16, padding: "22px 20px"
           }}>
-            <p style={{ fontSize: 14.5, color: "#3F5240", lineHeight: 1.7, margin: "0 0 14px", fontWeight: 600 }}>
-              {DANBIDAN[cat.key].hook}
-            </p>
             <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
               <span style={{ fontSize: 30, flexShrink: 0 }}>🌿</span>
               <div style={{ minWidth: 0 }}>
-                <p style={{ fontSize: 16, fontWeight: 800, color: "#2D3B2D", margin: "0 0 3px" }}>
-                  남창우 원장의 단비단 한약 처방
+                <p style={{ fontSize: 16.5, fontWeight: 800, color: "#2D3B2D", margin: "0 0 4px" }}>
+                  {DANBIDAN[cat.key].title}
                 </p>
-                <p style={{ fontSize: 13, color: "#5A6B5A", margin: 0 }}>{cat.subtitle} 맞춤 · {DANBIDAN[cat.key].desc}</p>
+                <p style={{ fontSize: 13, color: "#5A6B5A", margin: 0, lineHeight: 1.5 }}>{DANBIDAN[cat.key].desc}</p>
               </div>
             </div>
             <a href="https://www.danbidiet.com" target="_blank" rel="noopener noreferrer"
@@ -460,7 +457,7 @@ function TypeDetailCard({ catIdx, scores, checkedItems, toggleCheck, rank }) {
                 fontSize: 15.5, fontWeight: 800, textAlign: "center",
                 boxShadow: "0 4px 14px rgba(74,124,89,.28)", cursor: "pointer"
               }}>
-                내 체질에 맞는 단비단 알아보기 →
+                {cat.subtitle} 처방 단비단 자세히 보기 →
               </div>
             </a>
             <p style={{ fontSize: 11.5, color: "#8A968A", lineHeight: 1.6, marginTop: 10, textAlign: "center" }}>
@@ -645,12 +642,12 @@ function QuestionScreen({ answers, setAnswers, onFinish, mode }) {
             <p style={{ fontSize: 14, color: "#4A7C59", fontWeight: 700, margin: "0 0 16px 42px", lineHeight: 1.55 }}>
               {scale.note}
             </p>
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", gap: 6 }}>
               {[0, 1, 2, 3, 4].map(v => {
                 const a = answers[gQ] === v;
                 return (
                   <button key={v} onClick={() => pick(v)} style={{
-                    flex: "1 1 0", minWidth: 58, padding: "15px 5px", borderRadius: 14,
+                    flex: "1 1 0", minWidth: 0, padding: "15px 2px", borderRadius: 14,
                     border: a ? "2px solid #4A7C59" : "2px solid #DDD6CB",
                     background: a ? "linear-gradient(135deg, #4A7C59, #5A8C69)" : "#fff",
                     color: a ? "#fff" : "#6B7B6B", fontSize: 13, fontWeight: a ? 700 : 500,
@@ -659,7 +656,7 @@ function QuestionScreen({ answers, setAnswers, onFinish, mode }) {
                     whiteSpace: "pre-line", textAlign: "center", lineHeight: 1.35
                   }}>
                     <span style={{ fontSize: 22, fontWeight: 700 }}>{v}</span>
-                    <span style={{ fontSize: 11.5, opacity: .8 }}>{scale.labels[v]}</span>
+                    <span style={{ fontSize: 11, opacity: .8, wordBreak: "keep-all" }}>{scale.labels[v]}</span>
                   </button>
                 );
               })}
@@ -765,7 +762,7 @@ function ResultScreen({ answers, onRestart, mode }) {
   }
   const c1 = CATEGORIES[top1.i].key;
   const c2 = CATEGORIES[top2.i].key;
-  useEffect(() => { if (!needsPick) track("test_complete", { mode: mode || "quick", code: c1 + c2 }); }, [needsPick, c1, c2]);
+  useEffect(() => { if (!needsPick) track("test_complete", { mode: mode || "quick", code: c1 + c2, top1: c1, top2: c2 }); }, [needsPick, c1, c2]);
 
   const toggleCheck = (catKey, idx) => {
     const k = catKey + "-" + idx;
