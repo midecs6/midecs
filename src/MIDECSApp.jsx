@@ -921,72 +921,60 @@ function ResultScreen({ answers, onRestart, mode }) {
           </a>
         )}
 
-        {/* 타입별 맞춤 솔루션 — 1·2순위 바로 노출 */}
-        <h2 style={{ fontSize: 20, fontWeight: 800, margin: "8px 0 6px", textAlign: "center" }}>
-          🎯 {c1}{c2} 타입 맞춤 솔루션
-        </h2>
-        <p style={{ fontSize: 14, color: "#6B7B6B", textAlign: "center", marginBottom: 20, lineHeight: 1.7 }}>
-          점수가 가장 높은 두 영역의 원인·해결법·추천 음식을 정리했습니다.
-        </p>
-
-        <TypeDetailCard
-          key={"top1-" + top1.i}
-          catIdx={top1.i}
-          scores={scores}
-          checkedItems={checkedItems}
-          toggleCheck={toggleCheck}
-          rank={"1순위 · 가장 먼저 해결할 영역"}
-        />
-        <TypeDetailCard
-          key={"top2-" + top2.i}
-          catIdx={top2.i}
-          scores={scores}
-          checkedItems={checkedItems}
-          toggleCheck={toggleCheck}
-          rank={"2순위 · 함께 관리할 영역"}
-        />
-
-        {/* 나머지 4체질 탐색 */}
-        <div style={{ borderTop: "1px solid #DDD6CB", margin: "8px 0 24px", paddingTop: 28 }}>
-          <h3 style={{ fontSize: 17, fontWeight: 800, textAlign: "center", margin: "0 0 6px" }}>
-            🔍 다른 영역도 살펴보기
-          </h3>
-          <p style={{ fontSize: 13.5, color: "#6B7B6B", textAlign: "center", marginBottom: 18, lineHeight: 1.7 }}>
-            아래 버튼을 누르면 해당 영역의 상세 내용이 열립니다.
+        {/* 캡처 안내 */}
+        <div style={{
+          background: "linear-gradient(135deg, #1A2E1A, #3A6B4A)", borderRadius: 20,
+          padding: "26px 22px", textAlign: "center", marginBottom: 20,
+          boxShadow: "0 8px 32px rgba(26,46,26,.12)"
+        }}>
+          <div style={{ fontSize: 34, marginBottom: 8 }}>📸</div>
+          <p style={{ fontSize: 18, fontWeight: 800, color: "#fff", margin: "0 0 8px", lineHeight: 1.5 }}>
+            이 화면을 캡처해 두세요
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8, marginBottom: 24 }}>
-            {CATEGORIES.map((cat, ci) => {
-              const s = scores[ci]; const lv = getLevel(s);
-              const isTop = ci === top1.i || ci === top2.i;
-              const isActive = activeTab === ci;
-              return (
-                <button key={cat.key}
-                  onClick={() => { if (!isTop) setActiveTab(isActive ? null : ci); }}
-                  disabled={isTop}
-                  style={{
-                    padding: "10px 8px", borderRadius: 12,
-                    border: isActive ? "2px solid " + cat.color : "2px solid #DDD6CB",
-                    background: isTop ? "#F5F1EB" : (isActive ? cat.color + "12" : "#fff"),
-                    color: isTop ? "#9BA89B" : (isActive ? cat.color : "#6B7B6B"),
-                    fontSize: 13, fontWeight: 700,
-                    cursor: isTop ? "default" : "pointer", transition: "all .2s",
-                    display: "flex", alignItems: "center", justifyContent: "center", gap: 5
-                  }}>
-                  <span>{cat.icon}</span><span>{cat.key}</span>
-                  <span style={{ fontSize: 11, fontWeight: 800, padding: "2px 6px", borderRadius: 6, background: LC[lv] + "18", color: LC[lv] }}>{s}</span>
-                </button>
-              );
-            })}
-          </div>
-          {activeTab !== null && activeTab !== top1.i && activeTab !== top2.i && (
-            <TypeDetailCard
-              key={"extra-" + activeTab}
-              catIdx={activeTab}
-              scores={scores}
-              checkedItems={checkedItems}
-              toggleCheck={toggleCheck}
-            />
-          )}
+          <p style={{ fontSize: 14.5, color: "rgba(200,220,200,.9)", lineHeight: 1.75, margin: 0 }}>
+            내 코드 <strong style={{ color: "#fff" }}>{c1}{c2}</strong>를 기억해야<br />
+            카카오 채널에서 <strong style={{ color: "#fff" }}>내 체질 상세 분석</strong>을<br />
+            찾아보실 수 있습니다.
+          </p>
+        </div>
+
+        {/* 카카오 채널 안내 */}
+        <div style={{
+          background: "#fff", borderRadius: 20, padding: "30px 24px", textAlign: "center",
+          marginBottom: 24, border: "1px solid #EDE8E0",
+          boxShadow: "0 1px 3px rgba(15,23,42,.06), 0 8px 32px rgba(15,23,42,.04)"
+        }}>
+          <div style={{ fontSize: 38, marginBottom: 12 }}>📋</div>
+          <h3 style={{ fontSize: 21, fontWeight: 800, color: "#2D3B2D", margin: "0 0 10px", lineHeight: 1.45 }}>
+            {c1}{c2} 타입이 살 빼는 방법은<br />따로 있습니다
+          </h3>
+          <p style={{ fontSize: 16, color: "#4A7C59", fontWeight: 700, margin: "0 0 16px", lineHeight: 1.5 }}>
+            상세 분석은 [체질을 바꿉니다]<br />채널에서 확인하세요
+          </p>
+          <p style={{ fontSize: 15.5, color: "#3F5240", lineHeight: 1.8, margin: "0 0 22px" }}>
+            {CATEGORIES[top1.i].subtitle}·{CATEGORIES[top2.i].subtitle}의 살찌는 원인,<br />
+            10가지 해결법, 타입별 챌린지와<br />
+            추천 음식·식품까지 정리해 두었습니다.
+          </p>
+
+          <a href={KAKAO_CHANNEL_URL || "#"} target="_blank" rel="noopener noreferrer"
+            onClick={() => track("kakao_add_click", { code: c1 + c2 })}
+            style={{ textDecoration: "none", display: "block" }}>
+            <div style={{
+              width: "100%", padding: "15px 20px", borderRadius: 12,
+              background: "#FEE500", color: "#191600",
+              fontSize: 16, fontWeight: 800,
+              display: "flex", alignItems: "center", justifyContent: "center", gap: 10, cursor: "pointer"
+            }}>
+              <span style={{ fontSize: 22 }}>💬</span>
+              <span style={{ lineHeight: 1.4, textAlign: "center" }}>[체질을 바꿉니다]<br />카카오 채널 추가하기</span>
+            </div>
+          </a>
+
+          <p style={{ fontSize: 12, color: "#9BA89B", lineHeight: 1.6, marginTop: 14 }}>
+            채널을 추가하시면 <strong style={{ color: "#6B7B6B" }}>6체질 상세 분석 페이지 링크</strong>가<br />
+            카카오톡으로 바로 전송됩니다.
+          </p>
         </div>
 
         {/* 한 줄 고지 */}
